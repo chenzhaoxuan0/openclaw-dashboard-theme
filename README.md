@@ -1,8 +1,8 @@
 # 🌈 OpenClaw Dashboard Theme Changer
 
-> Change your OpenClaw Dashboard theme color with one command.
+> Change your OpenClaw Dashboard accent color with **one sentence**.
 
-[🇨🇳 中文说明](#中文说明) · [🇺🇸 English](#english)
+[🇨🇳 中文](#中文说明) · [🇺🇸 English](#english)
 
 ---
 
@@ -10,13 +10,13 @@
 
 ### What is this?
 
-A **skill** (plugin) for [OpenClaw](https://github.com/openclaw/openclaw) that lets you change the Dashboard's accent color in **one sentence**.
+A **skill** for [OpenClaw](https://github.com/openclaw/openclaw) that changes the Dashboard's accent color in one sentence. v2.0 is fully robust — it works regardless of OpenClaw version or file hash changes.
 
 ### Preview
 
-| Before (default red) | After (custom blue) |
+| Default | Your Color |
 |:---:|:---:|
-| 🔴 #ff5c5c | 🔵 #2775b6 |
+| 🔴 | 💛 🟣 🟢 🔵 |
 
 ### Usage
 
@@ -25,10 +25,13 @@ Just tell your OpenClaw assistant:
 ```
 Change my Dashboard to #5865F2
 ```
+```
+把 Dashboard 改成明黄色
+```
 
 Or pick a color by name:
 
-| Color | Hex Code |
+| Color | Hex |
 |:---:|:---:|
 | 🔵 Blue | `#2775b6` |
 | 🟣 Purple | `#5865F2` |
@@ -36,36 +39,41 @@ Or pick a color by name:
 | 🟠 Orange | `#f59e0b` |
 | 🔵 Cyan | `#14b8a6` |
 | 💗 Pink | `#ec4899` |
+| 💛 Yellow | `#fcd337` |
 
-### How it works
+### How it works (v2.0)
 
-The skill modifies the CSS variables in OpenClaw's built-in Dashboard UI:
-
-```
-~/.npm-global/lib/node_modules/openclaw/dist/control-ui/assets/index-9skUWh_g.css
-```
-
-It replaces all accent-related red values with your chosen color.
+1. Dynamically locates the CSS and JS asset files in the OpenClaw install directory — **no hardcoded paths**
+2. Replaces all `--accent` CSS variables across every theme (dark, light, openknot, dash, etc.)
+3. Computes all variants automatically: `--accent-hover`, `--accent-muted`, `--accent-subtle`, `--accent-glow`, `--focus`
+4. Updates hardcoded accent colors in the JS bundle
+5. Idempotent — safe to run multiple times
 
 ### Installation
 
-The skill is automatically loaded by OpenClaw from:
+OpenClaw loads skills automatically from:
 
 ```
 ~/.openclaw/workspace/skills/dashboard-theme/SKILL.md
 ```
 
-Or install via [ClawHub](https://clawhub.com):
+Or via [ClawHub](https://clawhub.com):
 
-```
+```bash
 openclaw skills install openclaw-dashboard-theme
 ```
 
+### Requirements
+
+- Bash 4+
+- OpenClaw installed via npm (`npm install -g openclaw`)
+- No root required
+
 ### Notes
 
-- ⚠️ Upgrading OpenClaw will **overwrite** the changes — just re-run the command.
-- The `danger` / destructive action red (`#ef4444`) is intentionally **preserved**.
-- No Gateway restart needed — just **force refresh** your browser (`Ctrl+Shift+R` / `Cmd+Shift+R`).
+- ⚠️ Upgrading OpenClaw will **overwrite** changes — just re-run the command
+- No Gateway restart needed — force refresh browser (`Ctrl+Shift+R` / `Cmd+Shift+R`)
+- The script validates input and prints clear error messages
 
 ---
 
@@ -73,13 +81,13 @@ openclaw skills install openclaw-dashboard-theme
 
 ### 这是什么？
 
-一个面向 [OpenClaw](https://github.com/openclaw/openclaw) 的 **技能（Skill）**，用一句话就能修改 Dashboard 的主题颜色。
+一个面向 [OpenClaw](https://github.com/openclaw/openclaw) 的 **技能（Skill）**，用一句话修改 Dashboard 的主题颜色。v2.0 完全鲁棒，不受 OpenClaw 版本或文件路径变化影响。
 
 ### 效果预览
 
-| 修改前（默认红色） | 修改后（自定义蓝色） |
+| 默认 | 自定义 |
 |:---:|:---:|
-| 🔴 #ff5c5c | 🔵 #2775b6 |
+| 🔴 | 💛 🟣 🟢 🔵 |
 
 ### 使用方法
 
@@ -88,8 +96,11 @@ openclaw skills install openclaw-dashboard-theme
 ```
 把我的 Dashboard 改成 #5865F2
 ```
+```
+换成黄色
+```
 
-或者直接说颜色名：
+或直接说颜色名：
 
 | 颜色 | 色号 |
 |:---:|:---:|
@@ -99,16 +110,15 @@ openclaw skills install openclaw-dashboard-theme
 | 🟠 橙色 | `#f59e0b` |
 | 🔵 青色 | `#14b8a6` |
 | 💗 粉色 | `#ec4899` |
+| 💛 黄色 | `#fcd337` |
 
-### 实现原理
+### 工作原理（v2.0）
 
-技能修改的是 OpenClaw 内置 Dashboard 的 CSS 变量文件：
-
-```
-~/.npm-global/lib/node_modules/openclaw/dist/control-ui/assets/index-9skUWh_g.css
-```
-
-将所有 accent 相关的红色值替换为你的目标颜色。
+1. **动态定位文件** — 不依赖硬编码路径，自动找到当前版本的 CSS 和 JS 文件
+2. **替换所有 CSS 变量** — `--accent`、`--primary`、`--ring`、`--accent-hover`、`--accent-muted`、`--accent-subtle`、`--accent-glow`、`--focus` 在所有主题块中全部更新
+3. **自动计算变体** — 根据主色自动推导 hover / muted / subtle / glow 颜色
+4. **更新 JS Bundle** — 替换 JS 里硬编码的 accent 颜色
+5. **幂等安全** — 可重复运行，不会累积替换
 
 ### 安装方式
 
@@ -120,18 +130,33 @@ OpenClaw 会自动从以下路径加载技能：
 
 或通过 [ClawHub](https://clawhub.com) 安装：
 
-```
+```bash
 openclaw skills install openclaw-dashboard-theme
 ```
 
+### 系统要求
+
+- Bash 4+
+- 通过 npm 安装的 OpenClaw（`npm install -g openclaw`）
+- 无需 root 权限
+
 ### 注意事项
 
-- ⚠️ 升级 OpenClaw 后会**被覆盖**，重新运行命令即可恢复。
-- 危险操作按钮的红色（`#ef4444`）会**保留**，不受影响。
-- 无需重启 Gateway，只需**强制刷新**浏览器（`Ctrl+Shift+R` / `Cmd+Shift+R`）。
+- ⚠️ 升级 OpenClaw 后会被覆盖，重新运行命令即可
+- 无需重启 Gateway，强制刷新浏览器即可（`Ctrl+Shift+R` / `Cmd+Shift+R`）
+- 脚本会验证输入并输出清晰的错误信息
 
 ---
 
-## License / 许可证
+## 文件说明
 
-MIT License — feel free to use, modify, and distribute.
+```
+dashboard-theme/
+├── SKILL.md          # OpenClaw Skill 定义（触发条件 + 执行逻辑）
+├── change-theme.sh   # 核心脚本（v2.0，完全鲁棒）
+└── README.md         # 使用文档（中英双语）
+```
+
+## License
+
+MIT License
