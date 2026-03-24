@@ -1,3 +1,10 @@
+---
+name: openclaw-dashboard-theme
+slug: openclaw-dashboard-theme
+version: 1.0.0
+description: Change OpenClaw Dashboard accent color with one command. Provide a hex color code (e.g. #2775b6) and the skill modifies the Dashboard CSS variables.
+---
+
 # Dashboard Theme Changer Skill
 
 修改 OpenClaw Dashboard 的主题颜色。
